@@ -1,0 +1,19 @@
+{% load static %}
+<div class="details">
+    <span class="close" onclick="closeForm();">Close Form</span>
+    <img src="{{food.img.url}}" alt="food">
+    <div>
+        <p>Food Name: {{food.name}}</p>
+        <p>Total Amount: <span id="actualprice">{{food.price}}</span></p>
+    </div>
+    <form action="" id="confirm_order_form">
+        {% csrf_token %}
+        <div>
+            <label>Quantity</label>
+            <input type="number" value="{{food.price}}" id="priced" hidden>
+            <input type="number" placeholder="specify quantity" id = "quantity" min="1" value="1" name="quantity" onchange="updatePrice(this);">
+            <textarea name="location" rows="8" placeholder="loaction for delivery of the food"></textarea>
+        </div>
+        <button value="{{food.id}}" onclick="confirm_order(this);">Confirm Order</button>
+    </form>
+</div>

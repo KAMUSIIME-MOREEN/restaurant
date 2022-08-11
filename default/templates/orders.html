@@ -1,0 +1,216 @@
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mama Mia | Orders</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+        }
+        header{
+            position: relative;
+        }
+        .contacts{
+            background: white;
+            display: flex;
+            justify-content: flex-end;
+        }
+        .contacts span{
+            padding: 10px;
+            border-right: 1px solid grey;
+        }
+        header .contacts span:last-child{
+            border-right: none;
+        }
+        header .logo{
+            display: grid;
+            grid-template-columns: 20% 60% 20%;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: whitesmoke;
+            color: black;
+            font-weight: 800;
+            position: relative;
+            z-index: 2;
+        }
+        header .logo img{
+            width: 100px;
+            height: 100px;
+            margin-right: auto;
+            margin-left: auto;
+            display: block;
+            text-align: center;
+        }
+        header .logo button{
+            width: 80%;
+            padding: 10px 20px;
+            border-radius: 5px;
+            background: rgb(37, 100, 42);
+            color: white;
+            border: none;
+            margin-right: auto;
+            margin-left: auto;
+            display: block;
+            text-align: center;
+        }
+        header .logo button:hover{
+            background: rgb(23, 64, 26);
+            cursor: pointer;
+        }
+        .h1{
+            padding: 20px 0 10px 0;
+            text-align: center;
+            color: rgb(9, 55, 88);
+            font-weight: bolder;
+        }
+        table{
+            width: 100%;
+            border: 1px solid grey;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        td, th{
+            border: 1px solid grey;
+            padding: 10px;
+        }
+        table img{
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 100%;
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
+            text-align: center;
+            padding: 10px 0;
+        } 
+        table figcaption{
+            text-align: center;
+        }
+        table td{
+            width: 15%;
+        }
+        thead{
+            background: rgb(34, 61, 81);
+            color: white;
+        }
+        tbody tr:nth-child(even){
+            background: rgb(62, 54, 54);
+            color: white;
+        }
+        tbody tr:nth-child(odd){
+            background: rgb(98, 91, 91);
+            color: white;
+        }
+        tbody button{
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            background: rgb(35, 108, 159);
+            transition: .4s;
+            color: white;
+            border: none;
+        }
+        tbody button:hover{
+            background: rgb(21, 62, 92);
+            cursor: pointer;
+        }
+        .btns{
+            text-align: center;
+        }
+        .btns button{
+            width: auto;
+            padding: 10px 20px;
+            border-radius: 5px;
+            background: rgb(35, 108, 159);
+            transition: .4s;
+            color: white;
+            border: none;
+            margin: 0 30px;
+        }
+        .btns button:hover{
+            background: rgb(21, 62, 92);
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="contacts">
+        <span>Tel: 0787270058</span>
+        <span>Email: kinyonyidavid@mail.com</span>
+        <span>Whatsapp: 0787270058</span>
+        <span>Time: 12:00 am</span>
+    </div>
+    <header>
+        <div class="logo">
+            <img src="{% static 'images/logo.png' %}" alt="logo">
+            <div>
+                <h1>Mama Mia Restaurant</h1>
+                <p>Food Assured</p>
+            </div>
+            <button onclick="window.location.href='/logout/';">Logout</button>
+        </div>
+    </header>
+    <h1 class="h1">Mia Restaurant Orders</h1>
+    <div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Personal details</th>
+                    <th>Food Ordered</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Delivery point</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr>
+                    <td>
+                        <img src="{% static 'images/food.jfif' %}" alt="img">
+                        <figcaption>{{ order.owner.get_full_name }}</figcaption>
+                    </td>
+                    <td>{{order.order.name}}</td>
+                    <td>{{order.qty}}</td>
+                    <td>{{order.price}}</td>
+                    <td>{{order.location}}</td>
+                    <td>
+                        {% if order.confirmed == False %}
+                        <button value="{{order.id}}" onclick="confirmOrder(this);">confirm</button>
+                        {% else %}
+                        <button value="{{order.id}}" onclick="confirmOrder(this);">order confirmed</button>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="btns">
+        <button>Previous page</button>
+        <span>page 1 of 2 </span>
+        <button>Next Page</button>
+    </div>
+    <script>
+        function confirmOrder(e){
+            let id =  e.value;
+            fetch(`/orders/?id=${id}`, {
+                method: 'GET',
+            })
+            .then(response => response.json())
+            .then(result => {
+                e.textContent = result['message']
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{% static 'images/logo.png' %}">
+    <title>Home</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+        }
+        header{
+            position: relative;
+        }
+        .contacts{
+            background: white;
+            display: flex;
+            justify-content: flex-end;
+        }
+        .contacts span{
+            padding: 10px;
+            border-right: 1px solid grey;
+        }
+        header .contacts span:last-child{
+            border-right: none;
+        }
+        header .logo{
+            display: grid;
+            grid-template-columns: 20% 60% 20%;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: whitesmoke;
+            color: black;
+            font-weight: 800;
+            position: relative;
+            z-index: 2;
+        }
+        header .logo img{
+            width: 100px;
+            height: 100px;
+            margin-right: auto;
+            margin-left: auto;
+            display: block;
+            text-align: center;
+        }
+        header .logo button{
+            width: 80%;
+            padding: 10px 20px;
+            border-radius: 5px;
+            background: rgb(37, 100, 42);
+            color: white;
+            border: none;
+            margin-right: auto;
+            margin-left: auto;
+            display: block;
+            text-align: center;
+        }
+        header .logo button:hover{
+            background: rgb(23, 64, 26);
+            cursor: pointer;
+        }
+        header .delcious{
+            position: relative;
+            background: url("/static/images/food.jfif");
+            background-size: cover;
+            background-repeat: no-repeat;
+            height: 50vh;
+        }
+        header .delcious::before{
+            position: absolute;
+            content: " ";
+            top: 0;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1;
+        }
+        header .delcious div{
+            width: 50%;
+            padding: 20px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 1px solid white;
+            border-radius: 10px;
+            z-index: 2;
+            color: white;
+        }
+        header .delcious button{
+            width: auto;
+            padding: 10px 20px;
+            border-radius: 5px;
+            background: rgb(35, 108, 159);
+            color: white;
+            border: none;
+        }
+        header .delcious button:hover{
+            background: rgb(21, 63, 94);
+            cursor: pointer;
+        }
+        header .delcious p{
+            padding: 10px 0;
+        }
+        section .services{
+            text-align: center;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-gap: 10px;
+            width: 90%;
+            margin: auto;
+        }
+        section .services h1{
+            padding: 10px 0;
+            grid-column: 1 / 4;
+        }
+        ul{
+            padding: 0;
+            margin: 0;
+        }
+        ul li{
+            list-style: none;
+            text-align: left;
+        }
+        section .services h4{
+            font-size: 1.2rem;
+        }
+        section .services div{
+            border: 1px solid rgb(196, 182, 182);
+            padding: 10px;
+            border-radius: 5px;
+        }
+        section .foods{
+            text-align: center;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-gap: 10px;
+        }
+        section .foods div{
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr
+        }
+        section .foods div img{
+            width: inherit;
+            height: 180px;
+            object-fit: cover;
+            grid-column: 1 / 3;
+        }
+        section .foods div button{
+            grid-column: 1 / 3;
+            padding: 10px 20px;
+            background: rgb(35, 108, 159);
+            color: white;
+            border: none;
+
+        }
+        section .foods div button:hover{
+            background: rgb(21, 63, 94);
+            cursor: pointer;
+        }
+        section .foods h2{
+            grid-column: 1 / 4;
+            padding: 10px 0;
+        }
+        section .foods div figcaption,
+        section .foods div p{
+            padding: 5px 0;
+
+        }
+        footer{
+            text-align: center;
+            margin: auto;
+            background: lightblue;
+            margin: 10px 0;
+        }
+        footer input{
+            width: 100%;
+            box-sizing: border-box;
+            padding: 10px;
+            margin: 8px auto;
+        }footer button{
+            width: 100%;
+            padding: 10px 20px;
+            background: rgb(35, 108, 159);
+            color: white;
+            border: none;
+        }
+        footer div:nth-child(3){
+            width: 40%;
+            margin: auto;
+        }
+        footer h2{
+            padding: 10px;
+        }
+        #overlay{
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 3;
+            display: none;
+        }
+        #content{
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            height: auto;
+            width: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            z-index: 3;
+        }
+        .details{
+            width: 100%;
+        }
+        .details img{
+            width: inherit;
+            height: 30vh;
+            object-fit: cover;
+        }
+        .details p{
+            padding: 10px 0;
+            font-weight: 700;
+        }
+        .details form input{
+            width: 100%;
+            box-sizing: border-box;
+            border: none;
+            border: 1px solid grey;
+            margin: 10px 0;
+            padding: 10px;
+        }
+        .details form input:focus,
+        .details form textarea:focus{
+            outline: none;
+        }
+        .details textarea{
+            box-sizing: border-box;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        .details div{
+            width: 90%;
+            margin: auto;
+        }
+        .details button{
+            width: 100%;
+            padding: 20px;
+            background: rgb(35, 108, 159);
+            color: white;
+            border: none;
+        }
+        .details .close{
+            position: fixed;
+            right: 20px;
+            top: 20px;
+            right: 20px;
+            background: whitesmoke;
+            color: black;
+            width: auto;
+            padding: 10px 20px;
+            border-radius: 3px;
+            cursor: pointer;
+            z-index: 4;
+        }
+    </style>
+</head>
+<body>
+    <div id="overlay">
+        <div id="content">
+        </div>
+    </div>
+    <div class="contacts">
+        <span>Tel: 0787270058</span>
+        <span>Email: kinyonyidavid@mail.com</span>
+        <span>Whatsapp: 0787270058</span>
+        <span>Time: 12:00 am</span>
+    </div>
+    <header>
+        <div class="logo">
+            <img src="{% static 'images/logo.png' %}" alt="logo">
+            <div>
+                <h1>Mama Mia Restaurant</h1>
+                <p>Food Assured</p>
+            </div>
+            {% if request.user.is_authenticated %}
+            <button onclick="window.location.href='/logout/';">Logout</button>
+            {% else %}
+            <button onclick="window.location.href='/login/';">Login</button>
+            {% endif %}
+        </div>
+        <div class="delcious">
+            <div>
+                <h1>Delicious Meals</h1>
+                <p>We treat all our customers with same equality</p>
+                <button onclick="ordersDiv();">place order</button>
+            </div>
+        </div>
+    </header>
+    <section>
+        <div class="services">
+            <h1>Our Services</h1>
+            <div>
+                <h4>Catering</h4>
+                <ul>
+                    <li>desctiption</li>
+                    <li>desctiption</li>
+                </ul>
+            </div>
+            <div>
+                <h4>Food Delivery</h4>
+                <ul>
+                    <li>desctiption</li>
+                    <li>desctiption</li>
+                </ul>
+            </div>
+            <div>
+                <h4>Outdoor Services</h4>
+                <ul>
+                    <li>desctiption</li>
+                    <li>desctiption</li>
+                </ul>
+            </div>
+        </div>
+        <div class="foods" id="foods"> 
+            <h2>Local Foods</h2>
+            {% for x in food %}
+            <div>
+                <img src="{{x.img.url}}" alt="{{x.name}}">
+                <figcaption>{{x.name}}</figcaption>
+                <p>Ugx {{x.price}} </p>
+                <button value="{{x.id}}" onclick="placeOrder(this);">place order</button>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    <footer>
+        <div>
+            <h2>Address</h2>
+            <address>
+                Mama mia Restaurant <br />
+                P.O Box 1212 <br />
+                Bombo Road | Kampala (U)<br />
+                0787270058 <br />
+            </address>
+        </div>
+        <div>
+            <h2>Useful Information</h2>
+            <p>Text about the useful information</p>
+        </div>
+        <div>
+            <h2>Contact Us</h2>
+            <form action="">
+                <input type="text" placeholder="Enter your name" name="name">
+                <input type="text" placeholder="Enter your contact" name="contact">
+                <input type="email" placeholder="Enter your email" name="email">
+                <button>send message</button>
+            </form>
+        </div>
+        <div>
+            <p>Copyright &copy; Mama mia Restaurant 2022</p>
+        </div>
+    </footer>
+    <script>
+        function updatePrice(e){
+            let quantity = e.value;
+            let price = document.getElementById("priced").value;
+            let sum = quantity * price;
+            let actualprice = document.getElementById("actualprice").textContent = sum;
+        }
+        function placeOrder(e){
+            let overlay = document.getElementById("overlay");
+            overlay.style.display ="block";
+            fetch(`/?id=${e.value}`, {
+                method: 'GET'
+            })
+            .then(response => response.text())
+            .then(result => {
+                console.log('Success:', result);
+                document.getElementById("content").innerHTML = result;
+                console.log('Success:', result);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+        function confirm_order(e){
+            let confirm_order_form = document.getElementById("confirm_order_form");
+            confirm_order_form.onsubmit = function(event){
+                event.preventDefault();
+                let formdata = new FormData(confirm_order_form);
+                formdata.append("id",e.value);
+                fetch(`/`, {
+                    method: 'POST',
+                    body: formdata,
+                })
+                .then(response => response.json())
+                .then(result => {
+                    console.log('Success:', result);
+                    alert(result['message']);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            }
+        }
+        function closeForm(){
+            let overlay = document.getElementById("overlay");
+            overlay.style.display ="none";
+        }
+        function ordersDiv(){
+            let foods = document.getElementById("foods");
+            let a = document.createElement("a");
+            a.setAttribute("href","#foods");
+            a.click();
+        }
+    </script>
+</body>
+</html>
